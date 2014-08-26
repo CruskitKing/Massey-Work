@@ -11,20 +11,24 @@ import org.apache.log4j.spi.LoggingEvent;
 
 public class MemoryAppender extends AppenderSkeleton{
 
-    private int maxSize;
-    private String listType;
+    private int maxSize = 20;
     private Boolean closed = false;
-    private List<WeakReference<LoggingEvent>> logs = new ArrayList<WeakReference<LoggingEvent>>();
-    private List<WeakReference<LoggingEvent>> secondLogs = new ArrayList<WeakReference<LoggingEvent>>();
+    private List<WeakReference<LoggingEvent>> logs;
+    private List<WeakReference<LoggingEvent>> secondLogs;
 
-    public MemoryAppender(int maxSize) {
+    public MemoryAppender(String listType) {
         super();
-        this.maxSize = maxSize;
-//        HashMap<String,List<WeakReference<LoggingEvent>>> hm = new HashMap<String, List<WeakReference<LoggingEvent>>>();
-//        hm.put("ArrayList", new ArrayList<WeakReference<LoggingEvent>>());
-//        hm.put("LinkedList", new LinkedList<WeakReference<LoggingEvent>>());
-//        setLogs(); //TODO
-//        setSecondLogs(hm.get(listType));
+//        this.maxSize = maxSize;
+        try {
+            HashMap<String, List<WeakReference<LoggingEvent>>> hm = new HashMap<String, List<WeakReference<LoggingEvent>>>();
+            hm.put("ArrayList", new ArrayList<WeakReference<LoggingEvent>>());
+            hm.put("LinkedList", new LinkedList<WeakReference<LoggingEvent>>());
+            setLogs(hm.get(listType).getClass().newInstance());
+            setSecondLogs(hm.get(listType).getClass().newInstance());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<WeakReference<LoggingEvent>> getLogs() {
@@ -48,7 +52,6 @@ public class MemoryAppender extends AppenderSkeleton{
     protected void append(LoggingEvent log){
         if (!getClosed()) {
             try {
-                int size = getLogs().size();
                 if (this.logs.size() < this.getMaxSize()) {
                     WeakReference<LoggingEvent> wLog = new WeakReference<LoggingEvent>(log);
                     this.logs.add(wLog);
@@ -73,11 +76,11 @@ public class MemoryAppender extends AppenderSkeleton{
         }
     }
 
-    public void setMaxSize(Integer maxSize) {
-        this.maxSize = maxSize;
-    }
     public Integer getMaxSize() {
         return maxSize;
+    }
+    public void setMaxSize(Integer maxSize) {
+        this.maxSize = maxSize;
     }
     public void setLogs(List<WeakReference<LoggingEvent>> logs) { this.logs = logs; }
     public Boolean getClosed() { return closed; }
