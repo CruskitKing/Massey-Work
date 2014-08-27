@@ -19,6 +19,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="mvel2-2.2.0.Final" level="project" />
   </component>
 </module>
 

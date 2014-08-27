@@ -4,6 +4,7 @@ import nz.ac.massey.cs.sdc.log4jassignment.s12110243.MemoryAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.After;
 import org.junit.Test;
 
 import java.lang.ref.WeakReference;
@@ -20,13 +21,13 @@ public class MemoryAppenderTest {
 
     @Test
     public void testCreateArrayListAppender() {
-        MemoryAppender ma = new MemoryAppender("ArrayList");
+        MemoryAppender ma = new MemoryAppender(new ArrayList<LoggingEvent>());
         assertTrue(ma.getSecondLogs().getClass() == ArrayList.class);
     }
 
     @Test
     public void testCreateLinkedListAppender() {
-        MemoryAppender ma = new MemoryAppender("LinkedList");
+        MemoryAppender ma = new MemoryAppender(new LinkedList<LoggingEvent>());
         assertTrue(ma.getSecondLogs().getClass() == LinkedList.class);
     }
 
@@ -35,13 +36,27 @@ public class MemoryAppenderTest {
      */
     @Test
     public void testGetLogs() {
-        MemoryAppender ma = new MemoryAppender("ArrayList");
+        MemoryAppender ma = new MemoryAppender(new ArrayList<LoggingEvent>());
         Logger logger = Logger.getLogger("logger");
         logger.addAppender(ma);
         logger.info("Test");
-        List<WeakReference<LoggingEvent>> log = ma.getLogs();
-        log.add(new WeakReference<LoggingEvent>(new LoggingEvent("logger",logger, Level.INFO,"Test",new Throwable())));
+        List<LoggingEvent> log = ma.getLogs();
+        log.add(new LoggingEvent("logger",logger, Level.INFO,"Test",new Throwable()));
         assertTrue(log.size() > ma.getLogs().size());
+    }
+
+    /*
+     * This test shows that when the primary log reaches maxSize, it will move logs to secondLogs
+     */
+    @Test
+    public void testMaxSize() {
+        MemoryAppender ma = new MemoryAppender(new ArrayList<LoggingEvent>());
+        Logger logger = Logger.getLogger("logger1");
+        logger.addAppender(ma);
+        for (int i = 0; i < ma.getMaxSize() + 5; i++) {
+            logger.info("Test");
+        }
+        assertTrue(ma.getSecondLogs().size() == 20 && ma.getLogs().size() == 25);
     }
 
     /*
@@ -49,8 +64,8 @@ public class MemoryAppenderTest {
      */
     @Test (expected = UnsupportedOperationException.class)
     public void testCloseAppender() {
-        MemoryAppender ma = new MemoryAppender("ArrayList");
-        Logger logger = Logger.getLogger("logger");
+        MemoryAppender ma = new MemoryAppender(new ArrayList<LoggingEvent>());
+        Logger logger = Logger.getLogger("logger2");
         logger.addAppender(ma);
         ma.close();
         logger.info("Test");

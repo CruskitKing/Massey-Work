@@ -1,9 +1,5 @@
 package nz.ac.massey.cs.sdc.log4jassignment.s12110243;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.AppenderSkeleton;
@@ -13,28 +9,32 @@ public class MemoryAppender extends AppenderSkeleton{
 
     private int maxSize = 20;
     private Boolean closed = false;
-    private List<WeakReference<LoggingEvent>> logs;
-    private List<WeakReference<LoggingEvent>> secondLogs;
+    private List<LoggingEvent> logs;
+    private List<LoggingEvent> secondLogs;
+    private Runtime runtime = Runtime.getRuntime();
 
-    public MemoryAppender(String listType) {
+    public MemoryAppender(List<LoggingEvent> list) {
         super();
-//        this.maxSize = maxSize;
         try {
-            HashMap<String, List<WeakReference<LoggingEvent>>> hm = new HashMap<String, List<WeakReference<LoggingEvent>>>();
-            hm.put("ArrayList", new ArrayList<WeakReference<LoggingEvent>>());
-            hm.put("LinkedList", new LinkedList<WeakReference<LoggingEvent>>());
-            setLogs(hm.get(listType).getClass().newInstance());
-            setSecondLogs(hm.get(listType).getClass().newInstance());
+            this.logs = list;
+            this.secondLogs = list.getClass().newInstance();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<WeakReference<LoggingEvent>> getLogs() {
-        List<WeakReference<LoggingEvent>> log = new ArrayList<WeakReference<LoggingEvent>>(this.secondLogs);
-        log.addAll(logs);
-        return log;
+    public List<LoggingEvent> getLogs() {
+        try {
+            List<LoggingEvent> log = this.logs.getClass().newInstance();
+            log.addAll(this.secondLogs);
+            log.addAll(this.logs);
+            return log;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void close() {
@@ -51,27 +51,24 @@ public class MemoryAppender extends AppenderSkeleton{
     @Override
     protected void append(LoggingEvent log){
         if (!getClosed()) {
-            try {
-                if (this.logs.size() < this.getMaxSize()) {
-                    WeakReference<LoggingEvent> wLog = new WeakReference<LoggingEvent>(log);
-                    this.logs.add(wLog);
-                } else {
-                    for (WeakReference<LoggingEvent> o : this.logs) {
-                        this.secondLogs.add(o);
-                        System.gc();
-                        Thread.sleep(10);
-                    }
-                    this.logs.clear();
-                    WeakReference<LoggingEvent> wLog = new WeakReference<LoggingEvent>(log);
-                    this.logs.add(wLog);
+            if ((float)runtime.totalMemory()/runtime.maxMemory() > 0.8) {
+                for (int i=0;i<this.secondLogs.size()/10;i++) {
+                    this.secondLogs.remove(this.secondLogs.size()-1);
                 }
-                System.gc();
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    System.gc();
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        else {
+            if (this.logs.size() >= this.maxSize) { // move logs to secondLogs if maxSize is reached
+                this.secondLogs.addAll(this.logs);
+                this.logs.clear();
+            }
+            this.logs.add(log);
+
+        } else {
             throw new UnsupportedOperationException("Appender is closed");
         }
     }
@@ -82,9 +79,9 @@ public class MemoryAppender extends AppenderSkeleton{
     public void setMaxSize(Integer maxSize) {
         this.maxSize = maxSize;
     }
-    public void setLogs(List<WeakReference<LoggingEvent>> logs) { this.logs = logs; }
+    public void setLogs(List<LoggingEvent> logs) { this.logs = logs; }
     public Boolean getClosed() { return closed; }
     public void setClosed(Boolean closed) { this.closed = closed; }
-    public List<WeakReference<LoggingEvent>> getSecondLogs() { return secondLogs; }
-    public void setSecondLogs(List<WeakReference<LoggingEvent>> secondLogs) { this.secondLogs = secondLogs; }
+    public List<LoggingEvent> getSecondLogs() { return secondLogs; }
+    public void setSecondLogs(List<LoggingEvent> secondLogs) { this.secondLogs = secondLogs; }
 }
