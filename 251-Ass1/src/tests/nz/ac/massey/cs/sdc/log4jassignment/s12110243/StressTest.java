@@ -10,14 +10,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by cloud202 on 19/08/14.
- */
 public class StressTest {
 
     @After
-    public void teardown() {
+    public void teardown() throws InterruptedException {
         System.gc();
+        Thread.sleep(10);
     }
 
     /*
@@ -32,7 +30,6 @@ public class StressTest {
         for (long stop = System.nanoTime() + TimeUnit.SECONDS.toNanos(20); stop > System.nanoTime(); ) {
             logger.info("Test");
         }
-        System.out.println(ma.getLogs().size());
     }
 
     @Test
@@ -43,6 +40,5 @@ public class StressTest {
         for (long stop = System.nanoTime() + TimeUnit.SECONDS.toNanos(20); stop > System.nanoTime(); ) {
             logger.info("Test");
         }
-        System.out.println(ma.getLogs().size());
     }
 }

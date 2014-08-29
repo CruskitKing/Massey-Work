@@ -1,0 +1,124 @@
+<?xml version="1.0">
+<project default="all" basedir=".">
+	<property name="name" value="MemoryAppender"/>
+	<property name="version" value="1"/>
+	<property name="debug" value="on"/>
+	<property name="src.dir" value="src"/>
+	<property name="out.dir" value="out"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="build.dir" value="build"/>
+	<property name="build.out" value="${build.dir}/out"/>
+	<property name="build.lib" value="${build.dir}/lib"/>
+	<property name="build.docs" value="${build.dir}/docs"/>
+	<property name="build.docs.api" value="${build.docs}/api"/>
+	<property name="qa.dir" value="${build.dir}/qa-reports"/>
+	
+	
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="all" descripion="Main target" depends="jar,tests,dependencyanalysis">
+		<echo>Build Finished!</echo>
+	</target>
+	
+	<target name="prepare">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes}"/>
+		<mkdir dir="${build.lib}"/>
+		<mkdir dir="${qa.dir}"/>
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<javac destdir="${build.out}"
+				debug="${debug}"
+				deprecation="on"
+				optimize="off"
+				srcdir="${src.dir}"
+				classpathref="build.classpath"
+				includes="nz/ac/massey/cs/**/*,tests/nz/ac/massey/cs/**/*.java"
+		/>
+		<copy todir="${build.out}">
+			<fileset dir="${src.dir}" includes="**/*.properties"/>
+		</copy>
+	</target>
+	
+	<target name="jar" depends="compile" description="create jar files">
+		<filter token="NAME" value="${name}"/>
+		<filter token="TITLE" value="${name}"/>
+		<filter token="VERSION" value="${version}"/>
+		<filter token="VENDOR" value="Mitchell Osborne"/>
+		<jar jarfile="${build.jar}"
+				manifest="${build.tmp}/manifest.mf"
+				basedir="${build.out}"
+				includes="nz/ac/massey/cs/**/*.*"
+		/>
+		<filter token="NAME" value="${name} Tests"/>
+		<filter token="TITLE" value="${name} Tests"/>
+		<jar jarfile="${build.test.jar}" 
+           manifest="${build.tmp}/manifest4tests.mf" 
+           basedir="${build.out}"
+           includes="tests/**/*.*"
+      />
+	  
+	  <target name="tests" depends="compile" description="Tests the project">
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath>
+				<pathelement location="${build.out}"/>
+				<pathelement path="${java.class.path}"/>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<formatter type="xml"/>
+			<test name="tests.nz.ac.massey.cs.sdc.log4jassignment.s12110243.MemoryAppenderTest" outfile="${qa.dir}/testresults"/>
+			<test name="tests.nz.ac.massey.cs.sdc.log4jassignment.s12110243.StressTest" outfile="${qa.dir}/stresstestresults"/>
+		</junit>
+		<junitreport todir="${qa.dir}">
+	   	    <fileset dir="${qa.dir}">
+	   	        <include name="testresults.xml"/>
+	   	    		<include name="stresstestresults.xml"/>
+	   	    </fileset>
+	   	    <report todir="${qa.dir}"
+	   	        styledir="junitreport"
+	   	        format="noframes">
+	   	        <param name="key1" expression="value1"/>
+	   	        <param name="key2" expression="value2"/>
+	   	    </report>
+	   	</junitreport>
+	</target>
+	
+	<target name="javadocs" depends="prepare" description="Creates the API documentation">
+      <delete dir="${build.docs.api}"/>
+      <mkdir dir="${build.docs.api}"/>
+      <javadoc packagenames="nz.ac.massey.cs.*"
+               sourcepath="${src.dir}"
+               destdir="${build.docs.api}"        	       
+               public="true"
+               author="true"
+               version="true"
+               use="false"
+               windowtitle="${name} ${version} "
+      		   classpath=""
+        >	
+       </javadoc>
+   </target>
+	
+	<target name="dependencyanalysis" depends="compile" description="Dependency ananlysis with JDepend">
+	  <jdepend format="xml" outputfile="${qa.dir}/jdepend-report.xml">
+	      <exclude name="java.*"/>
+	      <exclude name="javax.*"/>
+	  	  <exclude name="junit.*"/>
+	      <exclude name="org.junit.*"/>
+	  	  <exclude name="test.*"/>
+	  	  <classespath>
+			<pathelement location="${build.out}"/>
+		  </classespath>
+	  </jdepend>
+	  <xslt basedir="${qa.dir}" destdir="${qa.dir}" includes="jdepend-report.xml" style="${ant.home}/etc/jdepend.xsl" />
+	</target>
+	
+	<target
+</project>

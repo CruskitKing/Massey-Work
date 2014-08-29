@@ -4,19 +4,14 @@ import nz.ac.massey.cs.sdc.log4jassignment.s12110243.MemoryAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-import org.junit.After;
 import org.junit.Test;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by cloud202 on 19/08/14.
- */
 public class MemoryAppenderTest {
 
     @Test

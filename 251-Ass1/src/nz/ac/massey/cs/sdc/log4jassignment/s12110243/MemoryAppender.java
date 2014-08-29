@@ -12,6 +12,7 @@ public class MemoryAppender extends AppenderSkeleton{
     private List<LoggingEvent> logs;
     private List<LoggingEvent> secondLogs;
     private Runtime runtime = Runtime.getRuntime();
+    private MVELLayout layout = new MVELLayout();
 
     public MemoryAppender(List<LoggingEvent> list) {
         super();
@@ -67,18 +68,14 @@ public class MemoryAppender extends AppenderSkeleton{
                 this.logs.clear();
             }
             this.logs.add(log);
-
+//            System.out.println(layout.evaluate(log));
         } else {
             throw new UnsupportedOperationException("Appender is closed");
         }
     }
 
-    public Integer getMaxSize() {
-        return maxSize;
-    }
-    public void setMaxSize(Integer maxSize) {
-        this.maxSize = maxSize;
-    }
+    public Integer getMaxSize() { return maxSize; }
+    public void setMaxSize(Integer maxSize) { this.maxSize = maxSize; }
     public void setLogs(List<LoggingEvent> logs) { this.logs = logs; }
     public Boolean getClosed() { return closed; }
     public void setClosed(Boolean closed) { this.closed = closed; }
