@@ -12,7 +12,6 @@ public class MemoryAppender extends AppenderSkeleton{
     private List<LoggingEvent> logs;
     private List<LoggingEvent> secondLogs;
     private Runtime runtime = Runtime.getRuntime();
-    private MVELLayout layout = new MVELLayout();
 
     public MemoryAppender(List<LoggingEvent> list) {
         super();
@@ -23,6 +22,7 @@ public class MemoryAppender extends AppenderSkeleton{
         catch (Exception e) {
             e.printStackTrace();
         }
+//        this.setLayout(new MVELLayout("[@{level}] @{timestamp} @{level} @{message}"));
     }
 
     public List<LoggingEvent> getLogs() {
@@ -68,7 +68,6 @@ public class MemoryAppender extends AppenderSkeleton{
                 this.logs.clear();
             }
             this.logs.add(log);
-//            System.out.println(layout.evaluate(log));
         } else {
             throw new UnsupportedOperationException("Appender is closed");
         }

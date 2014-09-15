@@ -1,5 +1,6 @@
 package tests.nz.ac.massey.cs.sdc.log4jassignment.s12110243;
 
+import jdk.nashorn.internal.runtime.Logging;
 import nz.ac.massey.cs.sdc.log4jassignment.s12110243.MemoryAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
