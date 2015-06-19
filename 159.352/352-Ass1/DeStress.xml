@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="DeStress.xsl"?>
+<!DOCTYPE session [
+        <!ELEMENT session (session_description|content|activities|header|ideas|exercises|image)*>
+        <!ATTLIST session
+                sessionid CDATA #REQUIRED>
+        <!ELEMENT session_description (#PCDATA)>
+        <!ELEMENT content (#PCDATA)>
+        <!ELEMENT activities (activity)*>
+        <!ELEMENT activity (title|description|image)*>
+        <!ELEMENT title (#PCDATA)>
+        <!ELEMENT description (#PCDATA)>
+        <!ELEMENT image (#PCDATA)>
+        <!ATTLIST image
+                src CDATA #REQUIRED>
+        <!ELEMENT header (#PCDATA)>
+        <!ELEMENT ideas (idea)*>
+        <!ELEMENT idea (#PCDATA)>
+        <!ELEMENT exercises (exercise)*>
+        <!ELEMENT exercise (question|answer)*>
+        <!ELEMENT question (#PCDATA)>
+        <!ELEMENT answer (#PCDATA)>
+        <!ATTLIST answer
+                lines CDATA #REQUIRED>
+        ]>
+<session sessionid="6">
+    <!--<session sessionid="6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="DeStress.xsd">>-->
+    <session_description>Enjoying life and paying attention...
+	...and Acts of Kindness</session_description>
+	<content>Choose one activity to do during the week and see if it makes you happier.</content>
+	<activities>
+		<activity>
+			<title>Share it with others.</title>
+			<description>Appreciate the present moment with a friend or discuss a shared memory</description>
+			<image src="img/img1.png" />
+			<image src="img/img2.png" />
+			<image src="img/img3.png" />
+		</activity>
+		<activity>
+			<title>Be open to beauty.</title>
+			<description>When you see something beautiful, take time to appreciate it.</description>
+			<image src="img/img4.png" />
+			<image src="img/img5.png" />
+			<image src="img/img6.png" />
+		</activity>
+		<activity>
+			<title>Celebrate good news.</title>
+			<description>When something good happens, celebrate it with others to help you savour more deeply</description>
+			<image src="img/img7.png" />
+			<image src="img/img8.png" />
+			<image src="img/img9.png" />
+		</activity>
+		<activity>
+			<title>Replay happy events to yourself.</title>
+			<description>Remember moments or days when you were really happy and relive them.</description>
+			<image src="img/img10.png" />
+		</activity>
+		<activity>
+			<title>Take photos - </title>
+			<description>This can help you to savour many happy moments in your life</description>
+			<image src="img/img11.png" />
+			<image src="img/img12.png" />
+			<image src="img/img13.png" />
+		</activity>
+		<activity>
+			<title>Create an album and put in pictures that you want to savour - </title>
+			<description>These can be drawings, paintings, magazine pictures or photos of happy memories</description>
+			<image src="img/img14.png" />
+			<image src="img/img15.png" />
+			<image src="img/img16.png" />	
+			<image src="img/img17.png" />
+		</activity>
+		<activity>
+			<title>Create a journal - </title>
+			<description>Write down moments you want to savour</description>
+			<image src="img/img18.png" />
+			<image src="img/img19.png" />
+			<image src="img/img20.png" />		
+		</activity>
+	</activities>
+	<header>What we pay attention to is important</header>
+	<content>Like when we pay attention to negative stuff with our thoughts (remember Realistic Thinking) and end up feeling bad.
+	
+	Like - say you were nervous about going to camp. You COULD just notice your clammy hands, your nervous tummy, listen to others saying they don't want to go in case it's awful, keep looking at the camp letter describing activities you don't know anything abut - and JUST KEEP WORRYING!
+	
+	Or, you could listen to others talk about the fun they had at camp, ask them about the food and think about that AND FEEL BETTER.
+		
+		
+	What do you notice right now? Sounds? Sights? Sensations? Inside the room? Outside the room?
+		
+	When you notice yourself having negative thoughts, take your thoughts to notice what sounds and sights there are around you.
+	</content>
+	<header> Acts of Kindness IDEAS</header>
+	<ideas>
+		<idea>Leave a small gift  at the door of a family.</idea>
+		<idea>Write a note to a teacher thanking him or her for a lesson.</idea>
+		<idea>Send a nice card anonymously to a person that you know is feeling down.</idea>
+		<idea>Visit an animal shelter and bring some treats for the animals and the staff.</idea>
+		<idea>Do a job (like mowing the lawn, cleaning the house) for someone who is having hard times and surprise him or her by not charging.</idea>
+		<idea>Let the person behind you go ahead of you in the line.</idea>
+		<idea>Bake biscuits or another treat and give them away at school.</idea>
+		<idea>Bring extra pens to school and give them to people who forget to bring one.</idea>
+		<idea>Hug a friend or family member.</idea>
+		<idea>Do something for others who usually do something for you. Clean up the living room, make breakfast on Sunday, or do the laundry.</idea>
+		<idea>Take a new or transfer student and show them around the school.</idea>
+		<idea>Spend an afternoon visiting residents at a senior centre or nursing home.</idea>
+		<idea>Look for the good in everyone you meet.</idea>
+		<idea>Help someone struggling with heavy bags.</idea>
+		<idea>Smile at people you pass on the street or on the way to class.</idea>
+		<idea>Write anonymously positive to people saying what makes them special.</idea>
+		<idea>Invite someone new to your home to hang out.</idea>
+		<idea>Volunteer at a shelter, a hospital, or a non-profit organization</idea>
+		<idea>Cook a surprise dinner for your parent/s, complete with candles and a menu.</idea>
+		<idea>Stick up for someone who is getting picked on.</idea>
+		<idea>Eat lunch with someone who is new or sitting alone, or invite them to your table.</idea>
+		<idea>Help a student with a computer problem or a tough homework assignment.</idea>
+		<idea>Compliment someone about something he or she is wearing.</idea>
+		<idea>Give someone a flower or a lollipop to show you care.</idea>
+		<idea>Help an elderly neighbour with household chores that they are struggling with.</idea>
+		<idea>Talk to a student you've never talked to before.</idea>
+		<idea>Unload the dishwasher or do the dishes without being asked.</idea>
+		<idea>Tell or write your friends why they are important to you.</idea>
+	</ideas>
+	<header>Acts of Kindness</header>
+	<content>This week's challenge is to test the 'acts of kindness' theory - does being kind to others really make you happier?
+	
+	To test this theory choose three acts of kindness or one big act of kindness that you want to do and write them down below.
+	
+	</content>
+	<exercises>
+		<exercise>
+            <question>I am going to do the following three acts of kindness:</question>
+			<answer lines="1" />
+			<answer lines="1" />
+			<answer lines="1" />
+		</exercise>
+		<exercise>
+            <question>Or, I am going to do the following big act of kindness</question>
+			<answer lines="3" />
+		</exercise>
+		<exercise>
+            <question>What day are you going to do your act/s of kindness?</question>
+			<answer lines="1" />
+		</exercise>
+		<exercise>
+            <question>*How did you feel at the end of the day?</question>
+			<answer lines="1" />
+		</exercise>
+	</exercises>
+	<image src="img/img21.png" />
+</session>

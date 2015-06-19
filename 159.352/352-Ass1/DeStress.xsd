@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="session">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="session_description"/>
+                <xs:element maxOccurs="unbounded" ref="session_content"/>
+            </xs:sequence>
+            <xs:attribute name="sessionid" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="session_description" type="xs:string"/>
+    <xs:element name="session_content">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="header"/>
+                <xs:element minOccurs="0" ref="ideas"/>
+                <xs:element minOccurs="0" ref="content"/>
+                <xs:choice minOccurs="0">
+                    <xs:element ref="activities"/>
+                    <xs:sequence>
+                        <xs:element ref="exercises"/>
+                        <xs:element ref="image"/>
+                    </xs:sequence>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="header" type="xs:string"/>
+    <xs:element name="ideas">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="idea"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="idea" type="xs:string"/>
+    <xs:element name="content" type="xs:string"/>
+    <xs:element name="activities">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="activity"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="activity">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="title"/>
+                <xs:element ref="description"/>
+                <xs:element maxOccurs="unbounded" ref="image"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="title" type="xs:string"/>
+    <xs:element name="description" type="xs:string"/>
+    <xs:element name="exercises">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="exercise"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="exercise">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="question"/>
+                <xs:element maxOccurs="unbounded" ref="answer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="question" type="xs:string"/>
+    <xs:element name="answer">
+        <xs:complexType>
+            <xs:attribute name="lines" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="image">
+        <xs:complexType>
+            <xs:attribute name="src" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

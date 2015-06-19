@@ -1,0 +1,12 @@
+img{
+    width:100%;
+    max-width:10em;
+}
+
+body {
+    background: linear-gradient(to right, aquamarine, white, aquamarine);
+}
+
+#footer-image {
+    max-width:100em;
+}

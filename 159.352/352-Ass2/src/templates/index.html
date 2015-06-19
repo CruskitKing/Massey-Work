@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Note Taker - 12110243</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="banner">
+        <div class="home-button">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='home.jpeg') }}" width="35px" height="35px" id="home-button"/>
+            </a>
+        </div>
+        <div class="search-div">
+            <form action="" method="post">
+                <div class="inputs">
+                    <input type="text" name="search" placeholder="Search"/>
+                </div>
+                <input type="submit" value="Search" class="button" id="search-button"/>
+            </form>
+        </div>
+        <div class="account">
+            {% if not session.logged_in %}
+            <form action="login" method="post">
+                <div class="inputs">
+                    <label>Username:</label>
+                    <input type="text" name="username"/>
+                    <label>Password:</label>
+                    <input type="password" name="password"/>
+                </div>
+                <input type="submit" class="button" id="login" value="Log In" />
+            </form>
+            {% else %}
+            <a href="logout">
+                <div class="button">
+                    Log Out
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="content">
+        {% if session.logged_in %}
+        <form action="add" method="post">
+            <h3>New Note</h3>
+            <textarea class="title-edit" name="title" rows="1">New Title</textarea>
+            <input type="submit" class="button" id="add" value="Add"/>
+            <br/>
+            <textarea class="description-edit" name="description">New Description</textarea>
+        </form>
+        <hr/>
+        {% endif %}
+        <h3>Saved Notes</h3>
+        <hr/>
+        {% for note in notes %}
+        {% if session.logged_in %}
+        <div class="controls">
+            <a href="edit/{{ note[0] }}">
+                <div class="button" id="edit">
+                    Edit
+                </div>
+            </a>
+            <a href="delete/{{ note[0] }}">
+                <div class="button" id="delete">
+                    Delete
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        <div class="title">
+            <a href="view/{{ note[0] }}"><h3>{{ note[1] }}</h3></a>
+        </div>
+        <br/>
+        <div class="description">
+            {{ note[2]|safe }}
+        </div>
+        <br/>
+        <hr/>
+        {% endfor %}
+    </div>
+</body>
+</html>
