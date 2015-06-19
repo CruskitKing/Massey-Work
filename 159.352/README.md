@@ -1,4 +1,4 @@
-*159.352 Web Application Development
+159.352 Web Application Development
 
 This paper was designed to introduce technologies focused around web applications.
 
